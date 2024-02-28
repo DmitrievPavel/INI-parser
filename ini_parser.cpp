@@ -22,6 +22,13 @@ private:
         }
     }
 
+    static void trim_comment_to_value(std::string& value) {
+        size_t pos = value.find(';');
+        if (pos != std::string::npos) {
+            value = value.substr(0, pos);
+        }
+    }
+
     std::string get_values_name(std::string& section_name) {
         std::string name_list;
         for (auto& elem : data[section_name]) {
@@ -62,6 +69,7 @@ public:
             if (std::getline(ss, value_name, '=') && std::getline(ss, value)) {
                 trim(value_name);
                 trim(value);
+                trim_comment_to_value(value);
                 data[section_name][value_name] = value;
             }
 
